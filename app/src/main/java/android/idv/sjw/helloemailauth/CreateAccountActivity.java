@@ -20,40 +20,30 @@ public class CreateAccountActivity extends Activity {
 
     EditText newAccount,displayName,newPassword,newPasswordC;
 
-
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
-
         newAccount = (EditText)findViewById(R.id.newAccount);
         newPassword = (EditText)findViewById(R.id.newPassword);
         newPasswordC = (EditText)findViewById(R.id.newPasswordConfirm);
         displayName = (EditText)findViewById(R.id.displayName);
         mAuth = FirebaseAuth.getInstance();
-
-
-
-
     }
 
     public void createAccount(View v){
         String account = newAccount.getText().toString();
         String password = newPassword.getText().toString();
         String passwordC = newPasswordC.getText().toString();
-
         if(account.isEmpty() || account.equals("")){
             Toast.makeText(CreateAccountActivity.this,"請輸入帳號",Toast.LENGTH_LONG).show();
             return;
         }
-
         if(password.equals(passwordC) == false){
             Toast.makeText(CreateAccountActivity.this,"兩次密碼不同，請確認密碼",Toast.LENGTH_LONG).show();
             return;
         }
-
-
 
         mAuth.createUserWithEmailAndPassword(account,password)
                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
@@ -62,10 +52,7 @@ public class CreateAccountActivity extends Activity {
                 Toast.makeText(CreateAccountActivity.this
                         ,"己成功建立帳號",Toast.LENGTH_LONG).show();
 
-                //收鍵盤
-                Context context = CreateAccountActivity.this.getApplicationContext();
-                InputMethodManager imm = (InputMethodManager) getSystemService(context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0,InputMethodManager.RESULT_HIDDEN);
+                //設定 DisplayName
                 String displayNameString = displayName.getText().toString();
                 UserProfileChangeRequest userProfileChangeRequest =
                         new UserProfileChangeRequest.Builder().setDisplayName(displayNameString).build();
@@ -79,9 +66,5 @@ public class CreateAccountActivity extends Activity {
                         ,"無法建立帳號:"+e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
             }
         });
-
-
-
     }
-
 }

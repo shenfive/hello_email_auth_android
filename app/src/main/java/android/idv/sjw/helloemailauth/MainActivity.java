@@ -62,9 +62,14 @@ public class MainActivity extends AppCompatActivity {
                             + "\n\n顯示名稱:" + user.getDisplayName()
                             + "\n是否己確認電子郵件" + user.isEmailVerified());
                     if(!user.isEmailVerified()){
-                        user.sendEmailVerification();
-                        Toast.makeText(MainActivity.this,
-                                "電子郵件確認信己發出，請檢查你的電子郵件",Toast.LENGTH_LONG).show();
+                        user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(MainActivity.this,
+                                        "電子郵件確認信己發出，請檢查你的電子郵件",Toast.LENGTH_LONG).show();
+
+                            }
+                        });
                     }
                 }else{
                     createNewAccount.setVisibility(View.VISIBLE);
@@ -79,11 +84,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void goCreateAccount(View v){
-        Intent intent = new Intent();
-        intent.setClass(this,CreateAccountActivity.class);
-        startActivity(intent);
-    }
 
     public void login(View v){
         //若己登入就登出
@@ -141,4 +141,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    public void goCreateAccount(View v){
+        Intent intent = new Intent();
+        intent.setClass(this,CreateAccountActivity.class);
+        startActivity(intent);
+    }
+
 }
